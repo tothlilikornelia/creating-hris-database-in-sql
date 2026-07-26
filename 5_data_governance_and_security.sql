@@ -1,10 +1,8 @@
 DROP ROLE IF EXISTS hr_admin_role;
 DROP ROLE IF EXISTS department_leader_role;
-DROP ROLE IF EXISTS database_admin_role;
 
 CREATE ROLE hr_admin_role;
 CREATE ROLE department_leader_role;
-CREATE ROLE database_admin_role BYPASSRLS; --
 
 --Adding permissions
 
