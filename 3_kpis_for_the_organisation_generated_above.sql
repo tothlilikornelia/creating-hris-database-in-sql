@@ -1,8 +1,10 @@
 
 /* 
+---------------------------------------------------------------------
 Script name: kpis_for_the_organisation_generated_above
 Description:  Creates and assigns key performance indicators to the employees in the fictional HR database,
               while also simulating that only approximately 85% of the organisation has completed this task.
+---------------------------------------------------------------------
 */
 
 /*
