@@ -39,7 +39,6 @@ USING (
     current_setting('hris.current_user_id')::INT IN ( manager_id, manager_l2_id, manager_l3_id, manager_l4_id, manager_l5_id )
 );
 
--- B. Securing the KPI fact table (which feeds the Excel View)
 ALTER TABLE fact_employee_kpi ENABLE ROW LEVEL SECURITY;
 
 --HR: full access
@@ -53,9 +52,12 @@ CREATE POLICY leader_kpi_access
 ON fact_employee_kpi
 FOR SELECT TO department_leader_role
 USING (
-     IN (
+    employee_id IN (
         SELECT employee_id 
-        FROM all_employees_in_hris5 
-        WHERE department = current_setting('hris.current_user_department')
+        FROM hris_flattened_hierarchy_report 
+        WHERE current_setting('hris.current_user_id')::INT IN (manager_id, manager_l2_id, manager_l3_id, manager_l4_id, manager_l5_id)
     )
 );
+--Applying row level security to the views as well
+ALTER VIEW v_kpi_excel_export SET (security_invoker = true);
+ALTER VIEW hris_flattened_hierarchy_view SET (security_invoker = true);
