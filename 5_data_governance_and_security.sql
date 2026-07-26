@@ -1,3 +1,10 @@
+/*
+---------------------------------------------------------------------
+Script: 5_data_governance_and_security
+Description: Defines levels of data access, giving HR full permission and leaders only access to their reporting line
+---------------------------------------------------------------------
+*/
+
 DROP ROLE IF EXISTS hr_admin_role;
 DROP ROLE IF EXISTS department_leader_role;
 
@@ -11,7 +18,7 @@ GRANT SELECT ON all_employees_in_hris5 TO hr_admin_role;
 GRANT SELECT ON hris_flattened_hierarchy_report TO hr_admin_role;
 GRANT SELECT ON v_kpi_excel_export TO hr_admin_role;
 
--- VPs of deparments will only receive the required access (assumption: they need to audit their own reporting line, and sometimes want to check key performance indicators)
+-- Leaders will only receive the required access (assumption: they need to audit their own reporting line, and sometimes want to check key performance indicators)
 GRANT SELECT ON hris_flattened_hierarchy_report TO department_leader_role;
 GRANT SELECT ON v_kpi_excel_export TO department_leader_role;
 
@@ -32,7 +39,7 @@ USING (
     current_setting('hris.current_user_id')::INT IN ( manager_id, manager_l2_id, manager_l3_id, manager_l4_id, manager_l5_id )
 );
 
--- B. Securing the KPI Fact Table (which feeds the Excel View)
+-- B. Securing the KPI fact table (which feeds the Excel View)
 ALTER TABLE fact_employee_kpi ENABLE ROW LEVEL SECURITY;
 
 --HR: full access
