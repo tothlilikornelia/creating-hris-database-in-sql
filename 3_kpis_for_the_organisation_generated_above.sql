@@ -20,16 +20,21 @@ CREATE TABLE dim_kpi_library (
 -- Insert KPIs
 INSERT INTO dim_kpi_library (department, kpi_name, kpi_description)
 VALUES
-    ('Engineering', 'Engineering KPI', 'Description string'),
-    ('Sales', 'Sales KPI', 'Description string'),
-    ('HR', 'HR KPI', 'Description string');
+    ('Engineering', 'Engineering KPI1', 'Description string'),
+    ('Engineering', 'Engineering KPI2', 'Description string'),
+    ('Engineering', 'Engineering KPI3', 'Description string'),
+    ('Sales', 'Sales KPI1', 'Description string'),
+    ('Sales', 'Sales KPI2', 'Description string'),
+    ('Sales', 'Sales KPI3', 'Description string'),
+    ('HR', 'HR KPI1', 'Description string'),
+    ('HR', 'HR KPI2', 'Description string'),
+    ('HR', 'HR KPI3', 'Description string');
 
 -- 2. Create the KPI Assignment Fact Table
 DROP TABLE IF EXISTS fact_employee_kpi CASCADE;
 
 CREATE TABLE fact_employee_kpi AS
 WITH active_employees AS (
-    -- Only assign KPIs to active employees
     SELECT 
         employee_id,
         department
@@ -37,40 +42,32 @@ WITH active_employees AS (
     WHERE status = 'Active'
 ),
 compliance_filter AS (
-    -- Approximately 15% of employees forgot to set their performance indicaters
-    SELECT 
-        employee_id,
-        department
-    FROM active_employees
-    WHERE random() > 0.15 
-),
-kpi_count_allocation AS (
-    -- Allocate 1 to 3 KPIs per employee
+    -- ~85% has KPIs, between 1 and 3 per person
     SELECT 
         employee_id,
         department,
-        generate_series(1, floor(random() * 3 + 1)::INT) AS kpi_slot
-    FROM compliance_filter
+        floor(random() * 3 + 1)::INT AS target_kpi_count
+    FROM active_employees
+    WHERE random() > 0.15 
 ),
-kpi_assignment AS (
-    -- Creating kpi_assignment and preventing duplicate identical KPIs per employee
+shuffled_kpis AS (
+    -- Join employees to all available KPIs in their department and shuffle them
     SELECT 
-        a.employee_id,
-        a.department,
-        a.kpi_slot,
+        c.employee_id,
+        c.target_kpi_count,
         d.kpi_id,
-        ROW_NUMBER() OVER(PARTITION BY a.employee_id ORDER BY random()) as shuffle_rank
-    FROM kpi_count_allocation a
-    JOIN dim_kpi_library d ON a.department = d.department
+        ROW_NUMBER() OVER(PARTITION BY c.employee_id ORDER BY random()) as shuffle_rank
+    FROM compliance_filter c
+    JOIN dim_kpi_library d ON c.department = d.department
 )
+-- Only keep the top n random KPIs up to their target count
 SELECT 
     employee_id,
     kpi_id,
     '2026-01-01'::DATE AS kpi_start_date,
     '2026-12-31'::DATE AS kpi_end_date
-FROM kpi_assignment
-WHERE kpi_slot = shuffle_rank;
-
+FROM shuffled_kpis
+WHERE shuffle_rank <= target_kpi_count;
 ALTER TABLE fact_employee_kpi
 ADD CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES all_employees_in_hris5 (employee_id),
 ADD CONSTRAINT fk_kpi FOREIGN KEY (kpi_id) REFERENCES dim_kpi_library (kpi_id);
