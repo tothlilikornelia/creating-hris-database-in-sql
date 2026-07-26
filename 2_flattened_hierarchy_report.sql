@@ -1,3 +1,10 @@
+/*
+---------------------------------------------------------------------
+Script: 2_flattened_hierarchy_report
+Description: Creates the table summarising the full reporting line of an employee using left joins
+---------------------------------------------------------------------
+*/
+
 DROP TABLE IF EXISTS hris_flattened_hierarchy_report CASCADE;
 
 CREATE TABLE hris_flattened_hierarchy_report AS
