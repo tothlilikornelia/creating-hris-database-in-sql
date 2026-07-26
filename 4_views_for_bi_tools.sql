@@ -1,4 +1,9 @@
-
+/*
+---------------------------------------------------------------------
+Script: 4_views_for_bi_tools
+Description: Creates business views to optimalise connections with BI tools (e.g. PowerBI, Tableau)
+---------------------------------------------------------------------
+*/
 
 --Flattened hierarchy
 
