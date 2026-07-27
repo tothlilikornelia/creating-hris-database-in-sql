@@ -16,11 +16,13 @@ CREATE ROLE department_leader_role;
 -- HR will have full access in this case
 GRANT SELECT ON all_employees_in_hris5 TO hr_admin_role;
 GRANT SELECT ON hris_flattened_hierarchy_report TO hr_admin_role;
-GRANT SELECT ON v_kpi_excel_export TO hr_admin_role;
+GRANT SELECT ON kpi_excel_export_view TO hr_admin_role;
+GRANT SELECT ON hr_view_main_table TO hr_admin_role;
+GRANT SELECT ON hr_view_main_table_with_reporting_hierarchy TO hr_admin_role;
 
 -- Leaders will only receive the required access (assumption: they need to audit their own reporting line, and sometimes want to check key performance indicators)
 GRANT SELECT ON hris_flattened_hierarchy_report TO department_leader_role;
-GRANT SELECT ON v_kpi_excel_export TO department_leader_role;
+GRANT SELECT ON kpi_excel_export_view TO department_leader_role;
 
 -- Row level-security
 ALTER TABLE hris_flattened_hierarchy_report ENABLE ROW LEVEL SECURITY;
@@ -59,5 +61,7 @@ USING (
     )
 );
 --Applying row level security to the views as well
-ALTER VIEW v_kpi_excel_export SET (security_invoker = true);
+ALTER VIEW kpi_excel_export_view SET (security_invoker = true);
 ALTER VIEW hris_flattened_hierarchy_view SET (security_invoker = true);
+ALTER VIEW hr_view_main_table SET (security_invoker = true);
+ALTER VIEW hr_view_main_table_with_reporting_hierarchy SET (security_invoker = true);
