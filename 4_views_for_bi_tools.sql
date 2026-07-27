@@ -93,8 +93,8 @@ SELECT
     allemp.job_title,
     allemp.status,
     allemp.manager_id,
-    kpi_dim.kpi_name,
-    kpi_dim.kpi_description,
+    kpi_options.kpi_name,
+    kpi_options.kpi_description,
     kpi_fact.kpi_start_date,
     kpi_fact.kpi_end_date
 FROM 
@@ -103,7 +103,7 @@ FROM
 LEFT JOIN 
     fact_employee_kpi kpi_fact ON allemp.employee_id = kpi_fact.employee_id
 LEFT JOIN 
-    dim_kpi_library kpi_dim ON kpi_fact.kpi_id = kpi_dim.kpi_id
+    kpi_options_table kpi_options ON kpi_fact.kpi_id = kpi_options.kpi_id
 WHERE 
     allemp.status = 'Active';
 
