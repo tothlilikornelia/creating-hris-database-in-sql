@@ -5,6 +5,57 @@ Description: Creates business views to optimalise connections with BI tools (e.g
 ---------------------------------------------------------------------
 */
 
+--Main report
+--View for main table
+CREATE OR REPLACE VIEW hr_view_main_table AS
+SELECT 
+    employee_id,
+    first_name,
+    last_name,
+    first_name || ' ' || last_name AS full_name,
+    department,
+    job_level,
+    job_title,
+    pay_grade,
+    annual_salary_USD,
+    country,
+    region,
+    hire_date,
+    status,
+    termination_date
+FROM 
+    all_employees_in_hris5;
+
+--Main table with reporting hierarchy
+CREATE OR REPLACE VIEW hr_view_main_table_with_reporting_hierarchy AS
+SELECT 
+    allemp.employee_id,
+    allemp.first_name,
+    allemp.last_name,
+    allemp.first_name || ' ' || allemp.last_name AS full_name,
+    allemp.department,
+    allemp.job_level,
+    allemp.job_title,
+    allemp.pay_grade,
+    allemp.annual_salary_USD,
+    allemp.country,
+    allemp.region,
+    allemp.hire_date,
+    allemp.status,
+    allemp.termination_date,
+    hier.manager_id,
+    hier.manager_name,
+    hier.manager_l2_name,
+    hier.manager_l3_name,
+    hier.manager_l4_name,
+    hier.manager_l5_name
+
+FROM 
+    all_employees_in_hris5 AS allemp
+LEFT JOIN 
+    hris_flattened_hierarchy_report AS hier 
+    ON allemp.employee_id = hier.employee_id;
+
 --Flattened hierarchy
 
 CREATE OR REPLACE VIEW hris_flattened_hierarchy_view AS
@@ -35,7 +86,7 @@ SELECT
 
 
 -- KPIs
-CREATE OR REPLACE VIEW v_kpi_excel_export AS
+CREATE OR REPLACE VIEW kpi_excel_export_view AS
 SELECT 
     allemp.employee_id,
     allemp.department,
