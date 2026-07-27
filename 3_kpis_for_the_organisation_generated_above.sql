@@ -10,9 +10,9 @@ Description:  Creates and assigns key performance indicators to the employees in
 /*
 Creating the core tables
 */
-DROP TABLE IF EXISTS dim_kpi_library CASCADE;
+DROP TABLE IF EXISTS kpi_options_table CASCADE;
 
-CREATE TABLE dim_kpi_library (
+CREATE TABLE kpi_options_table (
     kpi_id SERIAL PRIMARY KEY,
     department VARCHAR(50),
     kpi_name VARCHAR(100),
@@ -20,7 +20,7 @@ CREATE TABLE dim_kpi_library (
 );
 
 -- Insert KPIs
-INSERT INTO dim_kpi_library (department, kpi_name, kpi_description)
+INSERT INTO kpi_options_table (department, kpi_name, kpi_description)
 VALUES
     ('Engineering', 'Engineering KPI1', 'Description string'),
     ('Engineering', 'Engineering KPI2', 'Description string'),
