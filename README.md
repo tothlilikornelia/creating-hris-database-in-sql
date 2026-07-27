@@ -33,7 +33,7 @@ This project is an end-to-end SQL data generation, transformation, and governanc
 
 #### More details
 * Data generation via CTEs to simulate business rules accompanied by using randomized filters
-* Sequential self-Jointo illustrate corporate hierarchy (from Associate to CEO)
+* Sequential self-joins illustrate corporate hierarchy (from Associate to CEO)
 * Differentiation between aiming for normalisation in data storage and BI-ready denormalised reports as they would be expected by non-tech colleagues
 * Role-based access control and row-level security: Enforced the principle of least privilege by creating distinct database roles (hr_admin_role and department_leader_role) paired with dynamic security policies (leader_hierarchy_access) tied to runtime session variables.
 * Power Query Integration:
