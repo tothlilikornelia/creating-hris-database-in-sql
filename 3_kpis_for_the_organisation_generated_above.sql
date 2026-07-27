@@ -22,7 +22,7 @@ CREATE TABLE dim_kpi_library (
 -- Insert KPIs
 INSERT INTO dim_kpi_library (department, kpi_name, kpi_description)
 VALUES
- ('Engineering', 'Engineering KPI1', 'Description string'),
+    ('Engineering', 'Engineering KPI1', 'Description string'),
     ('Engineering', 'Engineering KPI2', 'Description string'),
     ('Engineering', 'Engineering KPI3', 'Description string'),
     ('Sales', 'Sales KPI1', 'Description string'),
@@ -30,20 +30,19 @@ VALUES
     ('Sales', 'Sales KPI3', 'Description string'),
     ('HR', 'HR KPI1', 'Description string'),
     ('HR', 'HR KPI2', 'Description string'),
-    ('HR', 'HR KPI3', 'Description string')
-    ('Finance', 'Finance KPI1', 'Description string')
-    ('Finance', 'Finance KPI2', 'Description string')
-    ('Finance', 'Finance KPI3', 'Description string')
-    ('Marketing', 'Marketing KPI1', 'Description string')
-    ('Marketing', 'Marketing KPI2', 'Description string')
-    ('Marketing', 'Marketing KPI3', 'Description string')
-    ('Operations', 'Operations KPI1', 'Description string')
-    ('Operations', 'Operations KPI2', 'Description string')
-    ('Operations', 'Operations KPI3', 'Description string')
-    ('Executive', 'Executive KPI1', 'Description string')
-    ('Executive', 'Executive KPI2', 'Description string')
-    ('Executive', 'Executive KPI3', 'Description string')
-  ;
+    ('HR', 'HR KPI3', 'Description string'),
+    ('Finance', 'Finance KPI1', 'Description string'),
+    ('Finance', 'Finance KPI2', 'Description string'),
+    ('Finance', 'Finance KPI3', 'Description string'),
+    ('Marketing', 'Marketing KPI1', 'Description string'),
+    ('Marketing', 'Marketing KPI2', 'Description string'),
+    ('Marketing', 'Marketing KPI3', 'Description string'),
+    ('Operations', 'Operations KPI1', 'Description string'),
+    ('Operations', 'Operations KPI2', 'Description string'),
+    ('Operations', 'Operations KPI3', 'Description string'),
+    ('Executive', 'Executive KPI1', 'Description string'),
+    ('Executive', 'Executive KPI2', 'Description string'),
+    ('Executive', 'Executive KPI3', 'Description string');
 
 -- 2. Create the KPI Assignment Fact Table
 DROP TABLE IF EXISTS fact_employee_kpi CASCADE;
